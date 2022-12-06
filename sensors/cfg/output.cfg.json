@@ -1,0 +1,9 @@
+{
+    "influxdb" : {
+        "host": "localhost",
+        "port": 8086,
+        "token": "env:INFLUX_DB_TOKEN",
+        "org": "rrowniak",
+        "bucket": "sensors"
+    }
+}

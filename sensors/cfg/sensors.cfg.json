@@ -1,0 +1,13 @@
+{
+    "emeters": [
+        {
+            "type": "Shelly3EM",
+            "mac": "48:55:19:c9:f7:79",
+            "name": "wejscie_siec",
+            "labels": "",
+            "phases": "ABC",
+            "probe_every_s": 5,
+            "aggregate_every_n_probes": 6
+        }
+    ]
+}
