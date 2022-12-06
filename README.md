@@ -8,6 +8,8 @@ Gathered and stored data will be used for further analysis and energy consumptio
 
 ## Architecture
 
+![Power consumption example](/doc/architecture.png)
+
 ## Sensors
 This module is responsible for gathering data from configured sensors and then the data is stored in specified data source like InfluxDB for further analysis.
 In order to run the module execute the following commands:

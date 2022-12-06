@@ -1,0 +1,22 @@
+@startuml
+left to right direction
+
+agent "smart meters"
+agent "temperature sensors"
+agent "PV inverters"
+cloud "weather forecasts"
+
+[home-monitor sensors]  #palegreen;line:green;line.dashed;text:black
+
+database influxdb #yellow
+queue mqtt #yellow
+
+"smart meters" --> "home-monitor sensors"
+"temperature sensors" --> "home-monitor sensors"
+"PV inverters" --> "home-monitor sensors"
+"weather forecasts" --> "home-monitor sensors"
+
+"home-monitor sensors" --> influxdb
+"home-monitor sensors" --> mqtt
+
+@enduml
