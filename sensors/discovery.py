@@ -74,7 +74,7 @@ class MacDiscovery:
     def _buildUpArpCacheForDevHardWay(inet):
         ''' F-Ping every address in the subnet to build up the arp cache'''
         ''' fping <generate addr list> <repear once> <cidr>'''
-        utils.callCmd(['fping', '-g', '-r', '1', inet])
+        utils.callCmd(['fping', '-g', '-r', '2', inet])
 
     @staticmethod
     def _buildUpArpCacheForDevHardestWay(inet):

@@ -44,7 +44,12 @@ def main():
             def do():
                 sm.pool()
                 print(sm.getData())
-                influx.insert(sm.getName(), sm.getData())
+                try:
+                    influx.insert(sm.getName(), sm.getData())
+                except storage.ConnectionFailedError as ex:
+                    print("Can't connect influx database")
+                    print(ex)
+                    quit(1)
 
             schedule.every(emeter['probe_every_s']).seconds.do(do)
         

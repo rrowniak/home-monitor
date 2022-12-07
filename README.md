@@ -34,9 +34,12 @@ This module is responsible for gathering data from configured sensors and then t
 In order to run the module execute the following commands:
 ```
 $ cd sensors
-$ python3 ./main.py -c ./cfg/sensors.cfg.json -o
+$ python3 ./main.py -c ./cfg/sensors.cfg.json -o ./cfg/output.cfg.json
 ```
-## Requirements
+### Features
+- Discovery by MAC. If your sensors are in local area network and IP addresses are dynamically allocated, you can configure your sensors using MAC addresses. The sensor module will automatically discover their IPs and establish proper communication channel.
+- Sensors are fully configurable. Including probing frequency, integrating measurements. 
+### Requirements
 Required Python modules are listed in [requirements.txt](sensors/requirements.txt).
 System requirements:
 - `fping` for discovering devices in the local area network using MAC addresses
