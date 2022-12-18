@@ -14,6 +14,7 @@ class SmartMeter:
 def buildSmartMeter(cfg, macDisc) -> SmartMeter:
     if cfg['type'] == 'Shelly3EM':
         ip = macDisc.getIpFromMac(cfg['mac'])
+        print(f'Found ip for {cfg["name"]}: {ip}')
         return Shelly3EM(ip, cfg['name'])
 
 class Shelly3EM(SmartMeter):
@@ -25,7 +26,11 @@ class Shelly3EM(SmartMeter):
         self.name = name
     # SmartMeter methods
     def pool(self):
-        response = requests.get(self.url)
+        try:
+            response = requests.get(self.url)
+        except requests.exceptions.ConnectionError:
+            self.json_response = None
+            return
         if response.status_code == 200:
             self.json_response = response.json()
         else:

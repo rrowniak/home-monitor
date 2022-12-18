@@ -41,17 +41,21 @@ def main():
     
         for emeter in sensorsConfig['emeters']:
             sm = smart_meters.buildSmartMeter(emeter, macDiscovery)
-            def do():
+            def do(sm):
                 sm.pool()
-                print(sm.getData())
-                try:
-                    influx.insert(sm.getName(), sm.getData())
-                except storage.ConnectionFailedError as ex:
-                    print("Can't connect influx database")
-                    print(ex)
-                    quit(1)
+                data = sm.getData()
+                print(data)
+                if data is not None:
+                    try:
+                        influx.insert(sm.getName(), data)
+                    except storage.ConnectionFailedError as ex:
+                        print("Can't connect influx database")
+                        print(ex)
+                        quit(1)
+                else:
+                    sm = smart_meters.buildSmartMeter(emeter, macDiscovery)
 
-            schedule.every(emeter['probe_every_s']).seconds.do(do)
+            schedule.every(emeter['probe_every_s']).seconds.do(do, sm)
         
     while True:
         schedule.run_pending()
