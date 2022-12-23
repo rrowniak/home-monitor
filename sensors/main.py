@@ -38,10 +38,16 @@ def main():
             outConfig = json.load(f)
 
         influx = storage.InfluxDb(outConfig['influxdb'])
+
+        smartMeters = {}
+        lastSMID = 0
     
         for emeter in sensorsConfig['emeters']:
             sm = smart_meters.buildSmartMeter(emeter, macDiscovery)
-            def do(sm):
+            smartMeters[lastSMID] = sm
+
+            def do(smid, registry):
+                sm = registry[smid]
                 sm.pool()
                 data = sm.getData()
                 print(data)
@@ -53,9 +59,11 @@ def main():
                         print(ex)
                         quit(1)
                 else:
-                    sm = smart_meters.buildSmartMeter(emeter, macDiscovery)
+                   macDiscovery.invalidateCache()
+                   registry[smid] = smart_meters.buildSmartMeter(emeter, macDiscovery)
 
-            schedule.every(emeter['probe_every_s']).seconds.do(do, sm)
+            schedule.every(emeter['probe_every_s']).seconds.do(do, lastSMID, smartMeters)
+            lastSMID = lastSMID + 1
         
     while True:
         schedule.run_pending()
